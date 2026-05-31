@@ -1,4 +1,4 @@
-# 📰 NewsHub - Modern News Aggregator
+# NewsHub - Modern News Aggregator
 
 A beautiful, responsive news aggregator built with **Next.js 14**, **Tailwind CSS**, and the **NewsAPI**. Stay informed with the latest headlines, search functionality, category filters, and bookmark your favorite articles.
 
@@ -8,26 +8,26 @@ A beautiful, responsive news aggregator built with **Next.js 14**, **Tailwind CS
 
 ---
 
-## ✨ Features
+## Features
 
-### 🎯 Core Functionality
-- **📱 Fully Responsive** - Works seamlessly on mobile, tablet, and desktop
-- **🌙 Dark Mode** - Toggle between light and dark themes with persistence
-- **🔍 Smart Search** - Keyword-based search with quick suggestions
-- **📑 Bookmarks** - Save articles to read later (stored in localStorage)
-- **♾️ Infinite Scroll** - Load more articles with pagination
-- **⚡ Fast Performance** - Optimized with Next.js 14 App Router
+### Core Functionality
+- **Fully Responsive** - Works seamlessly on mobile, tablet, and desktop
+- **Dark Mode** - Toggle between light and dark themes with persistence
+- **Smart Search** - Keyword-based search with quick suggestions
+- **Bookmarks** - Save articles to read later (stored in localStorage)
+- **Infinite Scroll** - Load more articles with pagination
+- **Fast Performance** - Optimized with Next.js 14 App Router
 
-### 📂 News Categories
-- 🌟 Top Headlines
-- 💻 Technology
-- 💼 Business
-- ⚽ Sports
-- 🎬 Entertainment
-- 🔬 Science
-- 🏥 Health
+### News Categories
+- Top Headlines
+- Technology
+- Business
+- Sports
+- Entertainment
+- Science
+- Health
 
-### 🎨 UI/UX
+### UI/UX
 - Clean, minimalistic design inspired by Google News
 - Smooth animations and transitions
 - Skeleton loaders for better UX
@@ -37,7 +37,7 @@ A beautiful, responsive news aggregator built with **Next.js 14**, **Tailwind CS
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+ installed
@@ -77,7 +77,7 @@ A beautiful, responsive news aggregator built with **Next.js 14**, **Tailwind CS
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 NewsAggregator/
@@ -120,7 +120,7 @@ NewsAggregator/
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### API Configuration
 The app uses **GNews API** for fetching news. You can customize:
@@ -138,7 +138,7 @@ Edit `tailwind.config.js` to customize:
 
 ---
 
-## 🎨 Key Technologies
+## Key Technologies
 
 | Technology | Purpose |
 |------------|---------|
@@ -152,7 +152,7 @@ Edit `tailwind.config.js` to customize:
 
 ---
 
-## 📱 Pages Overview
+## Pages Overview
 
 ### 1. Homepage (`/`)
 - Displays top headlines from around the world
@@ -176,38 +176,9 @@ Edit `tailwind.config.js` to customize:
 
 ---
 
-## 🚀 Deployment
+## Optional Enhancements
 
-### Deploy to Vercel (Recommended)
-
-1. **Install Vercel CLI** (optional)
-   ```powershell
-   npm i -g vercel
-   ```
-
-2. **Deploy via Git**
-   - Push your code to GitHub
-   - Go to [vercel.com](https://vercel.com)
-   - Import your repository
-   - Add environment variables in Vercel dashboard
-   - Deploy!
-
-3. **Deploy via CLI**
-   ```powershell
-   vercel
-   ```
-
-### Environment Variables on Vercel
-Add these in your Vercel project settings:
-- `NEXT_PUBLIC_GNEWS_API_KEY`
-- `NEXT_PUBLIC_DEFAULT_COUNTRY`
-- `NEXT_PUBLIC_DEFAULT_LANGUAGE`
-
----
-
-## 🎯 Optional Enhancements
-
-### 🔮 Future Features You Can Add:
+### uture Features You Can Add:
 
 1. **AI Summaries**
    - Integrate OpenAI API for article summaries
@@ -243,26 +214,7 @@ Add these in your Vercel project settings:
 
 ---
 
-## 🔍 SEO Optimization
-
-The app includes several SEO best practices:
-
-- **Meta Tags**: Configured in `app/layout.js`
-- **Semantic HTML**: Proper heading hierarchy
-- **Image Optimization**: Next.js Image component
-- **Fast Loading**: SSR and caching strategies
-- **Mobile-First**: Responsive design
-
-### Additional SEO Tips:
-1. Add `robots.txt` file
-2. Generate `sitemap.xml`
-3. Add Open Graph meta tags
-4. Implement structured data (JSON-LD)
-5. Optimize Core Web Vitals
-
----
-
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues:
 
@@ -288,23 +240,7 @@ The app includes several SEO best practices:
 
 ---
 
-## 📝 Scripts
-
-```powershell
-# Development
-npm run dev          # Start dev server at localhost:3000
-
-# Production
-npm run build        # Build for production
-npm run start        # Start production server
-
-# Linting
-npm run lint         # Run ESLint
-```
-
----
-
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Here's how:
 
@@ -316,13 +252,13 @@ Contributions are welcome! Here's how:
 
 ---
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **GNews API** - For providing the news data
 - **Unsplash** - For fallback images
@@ -332,74 +268,20 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 📧 Support
+## Support
 
 Having issues? Need help?
 
 - Check the [Issues](../../issues) page
 - Review the documentation
-- Contact: your-email@example.com
+- Contact: mashudkhalid.work@gmail.com
 
 ---
 
-## 🌟 Show Your Support
+## Show Your Support
 
 If you like this project, please give it a ⭐ on GitHub!
 
 ---
 
-**Built with ❤️ using Next.js and Tailwind CSS**
-
-*Last updated: November 2025*
-
----
-
-## 🔄 Infinite Scroll Implementation
-
-This project uses a reusable IntersectionObserver-based hook to provide automatic infinite scrolling across the site (homepage, category pages and search results). The implementation is lightweight, prevents duplicate requests while loading, and shows a small loading indicator while fetching additional articles.
-
-Files involved:
-- `hooks/useInfiniteScroll.js` — custom hook using IntersectionObserver
-- `app/page.js` — Homepage: attaches sentinel ref and shows loader
-- `app/category/[category]/page.js` — Category pages: same pattern
-- `app/search/page.js` — Search results: same pattern
-
-How it works (summary):
-- A small "sentinel" `<div ref={sentinelRef}>` is rendered after the list of articles.
-- `useInfiniteScroll(callback, hasMore, isLoading)` observes the sentinel and calls `callback()` when it becomes visible (configured to trigger slightly before it is fully in view).
-- The page components guard against repeated triggers by checking `isLoading` and `hasMore` before requesting more data.
-
-Key configuration (in `hooks/useInfiniteScroll.js`):
-- `threshold: 0.1` — trigger when ~10% of the sentinel is visible
-- `rootMargin: '200px'` — start loading 200px before the sentinel fully appears (smooth UX)
-
-Quick usage example:
-
-```jsx
-// in a page component
-const sentinelRef = useInfiniteScroll(loadMore, hasMore, loadingMore);
-
-return (
-   <>
-      {/* article grid */}
-      {articles.map(a => <NewsCard key={a.url} article={a} />)}
-
-      {hasMore && (
-         <div ref={sentinelRef} className="py-8 flex justify-center">
-            {loadingMore && <span className="animate-spin">Loading more...</span>}
-         </div>
-      )}
-   </>
-)
-```
-
-Testing checklist:
-- Start the dev server: `npm run dev` and open `http://localhost:3000`
-- Scroll near the bottom of any listing page — new articles should load automatically
-- Confirm the spinner appears while loading and that no duplicate requests occur
-
-Notes & next steps:
-- Adjust `rootMargin` if you want earlier/later fetch behavior
-- Consider adding small skeleton placeholders for the next page for smoother visual loading
-- For very long lists, consider virtualization (`react-window`) to improve rendering performance
 
