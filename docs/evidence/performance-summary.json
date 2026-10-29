@@ -1,0 +1,96 @@
+{
+  "browser": "156.0.4314.50",
+  "lighthouseVersion": "13.6.0",
+  "viewport": "390x844",
+  "mode": "local production / demo fixtures, external Unsplash images",
+  "throttling": "Lighthouse default simulated mobile",
+  "results": [
+    {
+      "page": "home",
+      "runs": [
+        {
+          "performance": 87,
+          "accessibility": 100,
+          "lcp": 3049,
+          "cls": 0.0009161198313969092
+        },
+        {
+          "performance": 86,
+          "accessibility": 100,
+          "lcp": 3057,
+          "cls": 0.0009161198313969092
+        },
+        {
+          "performance": 89,
+          "accessibility": 100,
+          "lcp": 3010,
+          "cls": 0.0009161198313969092
+        }
+      ],
+      "median": {
+        "performance": 87,
+        "accessibility": 100,
+        "lcp": 3049,
+        "cls": 0.0009161198313969092
+      }
+    },
+    {
+      "page": "search",
+      "runs": [
+        {
+          "performance": 93,
+          "accessibility": 100,
+          "lcp": 767,
+          "cls": 0.0007689368306781472
+        },
+        {
+          "performance": 96,
+          "accessibility": 100,
+          "lcp": 779,
+          "cls": 0.0007689368306781472
+        },
+        {
+          "performance": 92,
+          "accessibility": 100,
+          "lcp": 796,
+          "cls": 0.0007689368306781472
+        }
+      ],
+      "median": {
+        "performance": 93,
+        "accessibility": 100,
+        "lcp": 779,
+        "cls": 0.0007689368306781472
+      }
+    },
+    {
+      "page": "saved",
+      "runs": [
+        {
+          "performance": 93,
+          "accessibility": 100,
+          "lcp": 863,
+          "cls": 0.001690415632870457
+        },
+        {
+          "performance": 87,
+          "accessibility": 100,
+          "lcp": 875,
+          "cls": 0.001690415632870457
+        },
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "lcp": 853,
+          "cls": 0.001690415632870457
+        }
+      ],
+      "median": {
+        "performance": 93,
+        "accessibility": 100,
+        "lcp": 863,
+        "cls": 0.001690415632870457
+      }
+    }
+  ]
+}

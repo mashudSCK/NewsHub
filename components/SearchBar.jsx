@@ -1,76 +1,93 @@
-'use client';
-
-import { useState } from 'react';
-import { Search, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-
-export default function SearchBar({ initialQuery = '' }) {
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Search, X, ArrowRight } from "lucide-react";
+export default function SearchBar({ initialQuery = "" }) {
   const [query, setQuery] = useState(initialQuery);
   const router = useRouter();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-    }
-  };
-
-  const handleClear = () => {
-    setQuery('');
-  };
-
+  useEffect(() => setQuery(initialQuery), [initialQuery]);
+  function search(value) {
+    const trimmed = value.trim();
+    router.push(
+      trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : "/search",
+    );
+  }
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto">
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <Search className="w-5 h-5 text-gray-400" />
-        </div>
-        
+    <form
+      className="search-form"
+      role="search"
+      onSubmit={(e) => {
+        e.preventDefault();
+        search(query);
+      }}
+    >
+      <label className="sr-only" htmlFor="news-search">
+        Search news
+      </label>
+      <div className="search-field">
+        <Search size={22} />
         <input
-          type="text"
+          id="news-search"
+          name="q"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for news... (e.g., AI, Philippines, Climate)"
-          className="w-full pl-12 pr-12 py-4 text-lg border-2 border-gray-300 dark:border-gray-600 rounded-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-colors"
+          maxLength={200}
+          placeholder="What would you like to understand?"
+          autoComplete="off"
         />
-
         {query && (
           <button
+            className="icon-button"
             type="button"
-            onClick={handleClear}
-            className="absolute inset-y-0 right-14 flex items-center pr-2"
+            aria-label="Clear search"
+            onClick={() => {
+              setQuery("");
+              search("");
+            }}
           >
-            <X className="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+            <X size={18} />
           </button>
         )}
-
         <button
+          className="button search-submit"
           type="submit"
-          className="absolute inset-y-0 right-0 flex items-center pr-4"
+          aria-label="Search"
         >
-          <div className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 transition-colors">
-            <Search className="w-5 h-5" />
-          </div>
+          <span>Search</span>
+          <ArrowRight size={18} />
         </button>
       </div>
-
-      {/* Quick search suggestions */}
-      <div className="mt-3 flex flex-wrap gap-2 justify-center">
-        <span className="text-sm text-gray-500 dark:text-gray-400">Try:</span>
-        {['AI', 'Technology', 'Climate Change', 'Philippines', 'Crypto'].map((suggestion) => (
+      <div className="search-suggestions">
+        <span>Explore a topic</span>
+        {["Climate", "AI", "Cities", "Science"].map((s) => (
           <button
-            key={suggestion}
             type="button"
+            key={s}
             onClick={() => {
-              setQuery(suggestion);
-              router.push(`/search?q=${encodeURIComponent(suggestion)}`);
+              setQuery(s);
+              search(s);
             }}
-            className="text-sm px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
           >
-            {suggestion}
+            {s}
+            <ArrowUpRightIcon />
           </button>
         ))}
       </div>
     </form>
+  );
+}
+function ArrowUpRightIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <path d="M6 18 18 6M6 6h12v12" />
+    </svg>
   );
 }

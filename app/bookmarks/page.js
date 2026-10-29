@@ -1,76 +1,102 @@
-'use client';
-
-import { useBookmarks } from '@/context/BookmarkContext';
-import NewsCard from '@/components/NewsCard';
-import { Bookmark, Trash2 } from 'lucide-react';
-
+"use client";
+import { useRef } from "react";
+import Link from "next/link";
+import { Bookmark, ArrowRight, Trash2 } from "lucide-react";
+import { useBookmarks } from "@/context/BookmarkContext";
+import NewsFeed from "@/components/news/NewsFeed";
 export default function BookmarksPage() {
-  const { bookmarks, clearAllBookmarks } = useBookmarks();
-
-  // Sort bookmarks by bookmarked date (newest first)
-  const sortedBookmarks = [...bookmarks].sort((a, b) => 
-    new Date(b.bookmarkedAt) - new Date(a.bookmarkedAt)
+  const {
+    bookmarks,
+    isLoaded,
+    lastRemoved,
+    undoLastRemoval,
+    clearAllBookmarks,
+  } = useBookmarks();
+  const dialog = useRef(null);
+  const clearButton = useRef(null);
+  const sorted = [...bookmarks].sort(
+    (a, b) =>
+      Date.parse(b.bookmarkedAt || "") - Date.parse(a.bookmarkedAt || ""),
   );
-
-  const handleClearAll = () => {
-    if (window.confirm('Are you sure you want to remove all bookmarks?')) {
-      clearAllBookmarks();
-    }
-  };
-
+  function close() {
+    dialog.current.close();
+    clearButton.current?.focus();
+  }
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header */}
-      <div className="mb-8 animate-fade-in">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-              📑 My Bookmarks
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              {bookmarks.length} {bookmarks.length === 1 ? 'article' : 'articles'} saved
-            </p>
-          </div>
-          
-          {bookmarks.length > 0 && (
-            <button
-              onClick={handleClearAll}
-              className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
-            >
-              <Trash2 className="w-4 h-4" />
-              <span>Clear All</span>
-            </button>
-          )}
+    <div className="page-content reading-list">
+      <div className="page-heading">
+        <div>
+          <h1>Your reading list.</h1>
+          <p className="reading-description">
+            Good stories deserve a little more time. Keep them here for later.
+          </p>
         </div>
       </div>
-
-      {/* Bookmarks Grid */}
-      {sortedBookmarks.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sortedBookmarks.map((article, index) => (
-            <NewsCard 
-              key={`${article.url}-${index}`} 
-              article={article}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <Bookmark className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            No bookmarks yet
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Start bookmarking articles to read them later
-          </p>
-          <a
-            href="/"
-            className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium transition-colors"
+      <div className="reading-list-meta">
+        <span>
+          {isLoaded ? bookmarks.length : "…"} saved{" "}
+          {bookmarks.length === 1 ? "story" : "stories"} · Stored on this device
+        </span>
+        {bookmarks.length > 0 && (
+          <button
+            ref={clearButton}
+            className="text-link"
+            style={{ border: 0, background: "transparent" }}
+            onClick={() => dialog.current.showModal()}
           >
-            Browse News
-          </a>
+            <Trash2 size={14} />
+            Clear list
+          </button>
+        )}
+      </div>
+      {lastRemoved && (
+        <div className="undo-notice">
+          <span>Story removed from your list.</span>
+          <button onClick={undoLastRemoval}>Undo removal</button>
         </div>
       )}
+      {sorted.length ? (
+        <NewsFeed articles={sorted} variant="search" />
+      ) : (
+        <div className="empty-state" aria-busy={!isLoaded}>
+          <Bookmark size={30} strokeWidth={1.2} />
+          <h2>A place for your next good read.</h2>
+          <p>
+            Save a story with the bookmark button. It will be waiting here when
+            you have a moment.
+          </p>
+          <Link className="text-link" href="/">
+            Find a story <ArrowRight size={16} />
+          </Link>
+        </div>
+      )}
+      <dialog
+        ref={dialog}
+        className="clear-dialog"
+        aria-labelledby="clear-title"
+        aria-describedby="clear-description"
+        onCancel={() => clearButton.current?.focus()}
+      >
+        <h2 id="clear-title">Clear your reading list?</h2>
+        <p id="clear-description">
+          This removes all saved stories from this device. This action cannot be
+          undone.
+        </p>
+        <div className="dialog-actions">
+          <button autoFocus className="button button-outline" onClick={close}>
+            Keep stories
+          </button>
+          <button
+            className="button"
+            onClick={() => {
+              clearAllBookmarks();
+              close();
+            }}
+          >
+            Clear all stories
+          </button>
+        </div>
+      </dialog>
     </div>
   );
 }
