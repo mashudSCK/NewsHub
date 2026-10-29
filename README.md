@@ -1,287 +1,108 @@
-# NewsHub - Modern News Aggregator
+# NewsHub
 
-A beautiful, responsive news aggregator built with **Next.js 14**, **Tailwind CSS**, and the **NewsAPI**. Stay informed with the latest headlines, search functionality, category filters, and bookmark your favorite articles.
+An editorial news reader redesigned from a second-year student project into a focused portfolio application.
 
-![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
-![React](https://img.shields.io/badge/React-18-blue?style=flat-square&logo=react)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=flat-square&logo=tailwind-css)
+![NewsHub editorial desktop interface](docs/evidence/home-light-desktop.png)
 
----
+## What it does
 
-## Features
+- Headlines and category editions with a lead story, supporting headlines, and compact rows.
+- URL-driven search with cancellation, history support, loading/error states, and retry.
+- A device-local reading list with persistence, remove/undo, and confirmed clear-all.
+- Light/dark themes, keyboard navigation, visible focus, accessible controls, and responsive layouts.
+- Explicit demo mode with original illustrative stories; optional server-side GNews integration.
+- Shared caching and atomic request budgets for live production.
 
-### Core Functionality
-- **Fully Responsive** - Works seamlessly on mobile, tablet, and desktop
-- **Dark Mode** - Toggle between light and dark themes with persistence
-- **Smart Search** - Keyword-based search with quick suggestions
-- **Bookmarks** - Save articles to read later (stored in localStorage)
-- **Infinite Scroll** - Load more articles with pagination
-- **Fast Performance** - Optimized with Next.js 14 App Router
+No accounts, AI summaries, infinite scrolling, or email delivery are included.
 
-### News Categories
-- Top Headlines
-- Technology
-- Business
-- Sports
-- Entertainment
-- Science
-- Health
+## Run locally
 
-### UI/UX
-- Clean, minimalistic design inspired by Google News
-- Smooth animations and transitions
-- Skeleton loaders for better UX
-- Responsive navigation with mobile menu
-- Beautiful gradient effects
-- Hover animations on cards
+Use Node **24 LTS (24.15 or later)** and npm. Node 22.22.2+ LTS is also supported. The lockfile is committed.
 
----
-
-## Quick Start
-
-### Prerequisites
-- Node.js 18+ installed
-- GNews API key (get it free at [gnews.io](https://gnews.io))
-
-### Installation
-
-1. **Clone or navigate to the project**
-   ```powershell
-   cd c:\xampp\htdocs\NewsAggregator
-   ```
-
-2. **Install dependencies**
-   ```powershell
-   npm install
-   ```
-
-3. **Set up environment variables**
-   - Copy `.env.example` to `.env.local`
-   ```powershell
-   Copy-Item .env.example .env.local
-   ```
-   - Open `.env.local` and add your GNews API key:
-   ```env
-   NEXT_PUBLIC_GNEWS_API_KEY=your_api_key_here
-   NEXT_PUBLIC_DEFAULT_COUNTRY=us
-   NEXT_PUBLIC_DEFAULT_LANGUAGE=en
-   ```
-
-4. **Run the development server**
-   ```powershell
-   npm run dev
-   ```
-
-5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
----
-
-## Project Structure
-
-```
-NewsAggregator/
-├── app/                          # Next.js App Router
-│   ├── layout.js                 # Root layout with providers
-│   ├── page.js                   # Homepage (Top Headlines)
-│   ├── globals.css               # Global styles
-│   ├── category/
-│   │   └── [category]/
-│   │       └── page.js           # Dynamic category pages
-│   ├── search/
-│   │   └── page.js               # Search results page
-│   └── bookmarks/
-│       └── page.js               # Saved bookmarks page
-│
-├── components/                   # Reusable React components
-│   ├── Navbar.jsx                # Navigation bar with dark mode toggle
-│   ├── NewsCard.jsx              # Article card with bookmark button
-│   ├── CategoryTabs.jsx          # Category filter tabs
-│   ├── SearchBar.jsx             # Search input with suggestions
-│   ├── LoadingSpinner.jsx        # Loading indicator
-│   ├── ErrorMessage.jsx          # Error display component
-│   └── NewsCardSkeleton.jsx      # Loading skeleton
-│
-├── context/                      # React Context providers
-│   ├── BookmarkContext.js        # Bookmark state management
-│   └── ThemeContext.js           # Dark/light mode management
-│
-├── utils/                        # Utility functions
-│   └── fetchNews.js              # API calls and helpers
-│
-├── package.json                  # Dependencies and scripts
-├── next.config.js                # Next.js configuration
-├── tailwind.config.js            # Tailwind CSS configuration
-├── postcss.config.js             # PostCSS configuration
-├── jsconfig.json                 # Path aliases
-├── .env.example                  # Environment variables template
-└── README.md                     # This file
+```sh
+git clone https://github.com/mashudSCK/NewsHub.git
+cd NewsHub
+# Check out the redesign branch after these changes have been pushed.
+npm ci
 ```
 
----
+If using the supplied source archive, extract it and run the following from its project folder:
 
-## Configuration
+```sh
+npm ci
+cp .env.example .env.local
+npm run dev
+```
 
-### API Configuration
-The app uses **GNews API** for fetching news. You can customize:
+On PowerShell, use `Copy-Item .env.example .env.local`. Open [localhost:3000](http://localhost:3000).
 
-- **Country**: Change `NEXT_PUBLIC_DEFAULT_COUNTRY` (e.g., `us`, `ph`, `gb`)
-- **Language**: Change `NEXT_PUBLIC_DEFAULT_LANGUAGE` (e.g., `en`, `es`, `fr`)
-- **Categories**: Modify in `utils/fetchNews.js`
+Demo mode is the default and requires no credentials. Every page labels its stories and photography as illustrative. Resource links are not claimed to be original reported articles.
 
-### Tailwind Customization
-Edit `tailwind.config.js` to customize:
-- Colors and themes
-- Fonts
-- Animations
-- Breakpoints
+Production preview:
 
----
+```sh
+npm run build
+npm run start
+```
 
-## Key Technologies
+## Optional live news
 
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 14** | React framework with App Router |
-| **React 18** | UI component library |
-| **Tailwind CSS** | Utility-first CSS framework |
-| **Lucide React** | Beautiful icon library |
-| **GNews API** | News data source |
-| **Context API** | State management |
-| **localStorage** | Client-side data persistence |
+Set `NEWS_MODE=live` and `GNEWS_API_KEY` in `.env.local`. Never prefix secrets with `NEXT_PUBLIC_`. Choose `NEWS_COUNTRY` from `us, gb, ph, au, ca, in`, and `NEWS_LANGUAGE` from `en, es, fr, de, ja`.
 
----
+For a production live deployment, also configure `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`. Local development may use a bounded in-memory store; production fails closed without shared storage. No provider failure silently switches to demo data.
 
-## Pages Overview
+Headline cache: 10 minutes. Search cache: 5 minutes. Results are capped at 10. The default upstream budget is 90 requests per UTC day; set it below your actual account allowance. The conservative per-client limit is 30 requests/minute; without an explicitly trusted hosting header, callers share one bucket.
 
-### 1. Homepage (`/`)
-- Displays top headlines from around the world
-- Infinite scroll pagination
-- Quick access to categories
+See [provider contract and launch checks](docs/provider-contract.md) for account eligibility, trusted headers, limits, image handling, and unverified deployment prerequisites. No paid service is required for the demo.
 
-### 2. Category Pages (`/category/[category]`)
-- Technology, Business, Sports, Entertainment, Science, Health
-- Category-specific news articles
-- Same infinite scroll functionality
+## Architecture
 
-### 3. Search Page (`/search`)
-- Keyword-based search
-- Quick search suggestions
-- Real-time results
+```text
+app/                        Route composition and thin API endpoints
+components/news/            Editorial feed, stories, images and state UI
+context/                    Theme and browser-local bookmark persistence
+hooks/useNewsFeed.ts         Request state, aborts and stale-response protection
+lib/news/                   Normalized types, provider adapter, cache and limits
+tests/news/                 Provider, race, persistence and rendering regressions
+tests/e2e/                  Browser journeys and automated accessibility checks
+scripts/                    Reproducible screenshots and performance measurements
+docs/                       Design, implementation plan, case study and evidence
+```
 
-### 4. Bookmarks Page (`/bookmarks`)
-- View all saved articles
-- Remove individual or all bookmarks
-- Persists across sessions
+Next.js 16 and React 19 preserve the original App Router foundation. The upgrade addresses advisories found in the original dependency tree. Tailwind remains available; the editorial visual system uses shared CSS tokens. Inter and Newsreader are bundled locally through next/font, so building does not require Google Fonts access.
 
----
+Images load directly in the browser with no-referrer; the server does not proxy arbitrary publisher images. Missing/failed images use a neutral placeholder.
 
-## Optional Enhancements
+## Verification
 
-### uture Features You Can Add:
+```sh
+npm run lint
+npm run typecheck
+npm test -- --run
+npm run build
+npx playwright install chromium
+npm run test:e2e
+```
 
-1. **AI Summaries**
-   - Integrate OpenAI API for article summaries
-   - Add a "Summarize" button to NewsCard
+CI uses Chromium on Linux. Local browser tests and capture scripts use installed Microsoft Edge on Windows. To use downloaded Chromium locally instead, set `CI=1` for the test command, or adjust the documented `channel` option in `playwright.config.ts`.
 
-2. **Voice Search**
-   - Implement Web Speech API
-   - Add microphone button to search bar
+The browser tests run a production server on port 3001. All API tests use fixtures/simulated external responses. No GNews credential is needed in CI.
 
-3. **User Authentication**
-   - Add Firebase Authentication
-   - Sync bookmarks across devices
+To refresh evidence with a production server running at port 3001:
 
-4. **Region Filter**
-   - Add country selector dropdown
-   - Allow users to select news region
+```sh
+node scripts/capture.mjs
+node scripts/audit.mjs
+```
 
-5. **Share Functionality**
-   - Add social media share buttons
-   - Copy link to clipboard
+Audit scripts assume local Edge, use three mobile Lighthouse runs per page, and save raw reports plus medians. Results are environment-specific, not claims about deployed traffic.
 
-6. **Reading List**
-   - Track reading progress
-   - Mark articles as read
+## Portfolio material
 
-7. **Email Digest**
-   - Send daily/weekly email summaries
-   - Customize topics of interest
+Read [the case study](docs/case-study.md), [design system](DESIGN.md), and [verification report](docs/verification.md). Before/after captures use illustrative fixtures. No user research, commercial adoption, or performance improvement is claimed without evidence.
 
-8. **RSS Feed Support**
-   - Add custom RSS feed sources
-   - Aggregate multiple sources
+## Attribution
 
----
+Original project: mashudSCK. The redesign was implemented with Codex assistance. News data in live mode: [GNews](https://gnews.io). Illustrative photography: Unsplash. Fonts: Inter and Newsreader (their bundled packages include the respective licenses). Icons: Lucide.
 
-## Troubleshooting
-
-### Common Issues:
-
-**1. API Rate Limit**
-- GNews free tier: 100 requests/day
-- Use caching to reduce API calls
-- Consider upgrading for production
-
-**2. Images Not Loading**
-- Check if `urlToImage` is valid
-- Fallback images are configured
-- Some sources block external access
-
-**3. Dark Mode Flickering**
-- Due to hydration mismatch
-- Current implementation prevents this
-- Theme loads from localStorage on mount
-
-**4. Build Errors**
-- Clear `.next` folder: `Remove-Item -Recurse -Force .next`
-- Delete `node_modules` and reinstall
-- Check Node.js version compatibility
-
----
-
-## Contributing
-
-Contributions are welcome! Here's how:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-## Acknowledgments
-
-- **GNews API** - For providing the news data
-- **Unsplash** - For fallback images
-- **Lucide** - For beautiful icons
-- **Vercel** - For hosting and deployment
-- **Next.js Team** - For the amazing framework
-
----
-
-## Support
-
-Having issues? Need help?
-
-- Check the [Issues](../../issues) page
-- Review the documentation
-- Contact: mashudkhalid.work@gmail.com
-
----
-
-## Show Your Support
-
-If you like this project, please give it a ⭐ on GitHub!
-
----
-
-
+This checkout has not been pushed or deployed automatically.

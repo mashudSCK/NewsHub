@@ -1,40 +1,110 @@
-import { Inter } from 'next/font/google';
-import './globals.css';
-import Navbar from '@/components/Navbar';
-import { BookmarkProvider } from '@/context/BookmarkContext';
-import { ThemeProvider } from '@/context/ThemeContext';
-
-const inter = Inter({ subsets: ['latin'] });
-
+import localFont from "next/font/local";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import { BookmarkProvider } from "@/context/BookmarkContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { getNewsConfig } from "@/lib/news/config";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+const inter = localFont({
+  src: "../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
+  variable: "--font-sans",
+  display: "swap",
+});
+const newsreader = localFont({
+  src: "../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2",
+  variable: "--font-editorial",
+  display: "swap",
+});
+export const dynamic = "force-dynamic";
 export const metadata = {
-  title: 'NewsHub - Stay Informed with Latest News',
-  description: 'A modern news aggregator featuring top headlines, category filters, search functionality, and bookmarks. Stay updated with the latest news from around the world.',
-  keywords: 'news, headlines, breaking news, technology, business, sports, entertainment',
-  authors: [{ name: 'NewsHub Team' }],
-  viewport: 'width=device-width, initial-scale=1',
-  themeColor: '#3b82f6',
+  title: { default: "NewsHub — A wider perspective", template: "%s" },
+  description:
+    "An editorial news reader. Explore headlines, follow your curiosity, and save stories for later.",
 };
-
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#F7F5F0",
+};
+const initializeTheme = `try{var t=localStorage.getItem('newsTheme');document.documentElement.classList.toggle('dark',t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches))}catch(e){document.documentElement.classList.toggle('dark',matchMedia('(prefers-color-scheme: dark)').matches)}`;
 export default function RootLayout({ children }) {
+  const config = getNewsConfig();
+  const date = new Intl.DateTimeFormat("en", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date());
+  const countryNames = {
+    us: "United States",
+    gb: "United Kingdom",
+    ph: "Philippines",
+    au: "Australia",
+    ca: "Canada",
+    in: "India",
+  };
+  const edition = `${countryNames[config.country] || config.country} / ${config.language.toUpperCase()}`;
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-gray-50 dark:bg-gray-900 transition-colors`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: initializeTheme }} />
+      </head>
+      <body className={`${inter.variable} ${newsreader.variable}`}>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
         <ThemeProvider>
           <BookmarkProvider>
-            <Navbar />
-            <main className="min-h-screen">
+            <Navbar date={date} edition={edition} />
+            {config.mode === "demo" && (
+              <div className="container">
+                <aside className="demo-notice">
+                  <span className="demo-label">Demo edition</span>
+                  <span>
+                    Illustrative stories and photography. Links open related
+                    resources, not reported articles.
+                  </span>
+                </aside>
+              </div>
+            )}
+            <main id="main" className="container" tabIndex={-1}>
               {children}
             </main>
-            <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="text-center text-gray-600 dark:text-gray-400">
-                  <p className="mb-2">
-                    &copy; {new Date().getFullYear()} NewsHub. All rights reserved.
-                  </p>
-                  <p className="text-sm">
-                    Powered by <a href="https://newsapi.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">NewsAPI</a>
-                  </p>
-                </div>
+            <footer className="site-footer container">
+              <div className="footer-top">
+                <Link href="/" className="footer-wordmark">
+                  NewsHub<span>.</span>
+                </Link>
+                <p>
+                  A wider world.
+                  <br />A little more understanding.
+                </p>
+                <Link href="/bookmarks" className="text-link">
+                  Your reading list <ArrowUpRight size={16} />
+                </Link>
+              </div>
+              <div className="footer-bottom">
+                <span>Built for the curious.</span>
+                <span>
+                  {config.mode === "demo" ? (
+                    "Illustrative portfolio demo"
+                  ) : (
+                    <>
+                      News data by{" "}
+                      <a
+                        href="https://gnews.io"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        GNews
+                        <span className="sr-only"> (opens in a new tab)</span>
+                      </a>
+                    </>
+                  )}
+                </span>
+                <span>© {new Date().getUTCFullYear()} NewsHub</span>
               </div>
             </footer>
           </BookmarkProvider>

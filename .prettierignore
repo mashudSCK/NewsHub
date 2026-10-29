@@ -1,0 +1,8 @@
+node_modules
+.next
+package-lock.json
+docs/newshub-implementation-plan.md
+docs/newshub-design.md
+test-results
+playwright-report
+docs/evidence/*.json
